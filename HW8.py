@@ -18,20 +18,18 @@ def load_rest_data(db):
     path = os.path.dirname(os.path.abspath(__file__))
     conn = sqlite3.connect(path + '/' + db)
     cur = conn.cursor()
-    cur.execute("SELECT name, category_id, building_id, rating FROM restaurants")
-    #cur.execute("SELECT id, category FROM categories")
-    #cur.execute("SELECT id, building FROM buildings")
+    #cur.execute("SELECT restaurants.name, restaurants.building_id, restaurants.rating, buildings.id, buildings.building FROM restaurants JOIN buildings ON restaurants.building_id = buildings.id")
+    #cur.execute("SELECT restaurants.name, restaurants.category_id, restaurants.rating, categories.id, categories.category FROM restaurants JOIN categories ON restaurants.category_id = categories.id")
+    cur.execute("SELECT restaurants.name, restaurants.building_id, restaurants.rating, restaurants.category_id, buildings.id, buildings.building, categories.id, categories.category FROM restaurants INNER JOIN buildings ON restaurants.building_id = buildings.id INNER JOIN categories ON restaurants.category_id = categories.id")
     rows = cur.fetchall()
-    print(rows)
     d = {}
     for restaurant in rows:
         name = restaurant[0]
-        category_id = restaurant[1]
-        #how to get category from category id
-        building_id = restaurant[2]
-        #how to get building from building id
-        rating = restaurant[3]
+        category = restaurant[7]
+        building = restaurant[5]
+        rating = restaurant[2]
         d[name] = {"category": category, "building": building, "rating": rating}
+    conn.close()
     return d
 
 def plot_rest_categories(db):
