@@ -78,7 +78,7 @@ def find_rest_in_building(building_num, db):
 
     cur.execute("SELECT restaurants.name, restaurants.building_id, restaurants.rating, restaurants.category_id, buildings.id, buildings.building, categories.id, categories.category FROM restaurants INNER JOIN buildings ON restaurants.building_id = buildings.id INNER JOIN categories ON restaurants.category_id = categories.id")
     rows = cur.fetchall()
-    #print(rows)
+    print(rows)
     
     restaurant_names = []
 
@@ -86,8 +86,8 @@ def find_rest_in_building(building_num, db):
         if restaurant[5] == building_num:
             restaurant_names.append(restaurant[0])
 
-    restaurant_names.sort(key = lambda x: x[0], reverse = True)
-    #print(restaurant_names)
+    restaurant_names.sort(key = lambda x: x[2], reverse = True)
+    print(restaurant_names)
     return restaurant_names
 
 #EXTRA CREDIT
