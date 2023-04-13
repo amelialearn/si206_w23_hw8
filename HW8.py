@@ -18,13 +18,13 @@ def load_rest_data(db):
     path = os.path.dirname(os.path.abspath(__file__))
     conn = sqlite3.connect(path+'/'+db)
     cur = conn.cursor()
-    rows = cur.fetchall()
+    rows = cur.fetchall() #nothing is in this??
     d = {}
     for restaurant in rows:
-        name = restaurant[0]
-        category = restaurant[1]
-        building = restaurant[2]
-        rating = restaurant[3]
+        name = restaurant[1]
+        category = restaurant[2]
+        building = restaurant[3]
+        rating = restaurant[4]
         d[name] = {"category": category, "building": building, "rating": rating}
     return d
 
