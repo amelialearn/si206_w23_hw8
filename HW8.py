@@ -40,29 +40,27 @@ def plot_rest_categories(db):
     """
     path = os.path.dirname(os.path.abspath(__file__))
     conn = sqlite3.connect(path + '/' + db)
-    #conn = sqlite3.connect(db)
     cur = conn.cursor()
 
     cur.execute("SELECT restaurants.name, restaurants.building_id, restaurants.rating, restaurants.category_id, buildings.id, buildings.building, categories.id, categories.category FROM restaurants INNER JOIN buildings ON restaurants.building_id = buildings.id INNER JOIN categories ON restaurants.category_id = categories.id")
     rows = cur.fetchall()
-    #print(rows)
     
     cat_count = {}
-    counts = {}
     for row in rows:
         category = row[7]
-        
-        for item in counts.keys():
-            cat_count[category] = item
+        if category not in cat_count:
+            cat_count[category] = 1
+        else:
+            cat_count[category] += 1
 
-    categories = counts.keys()
-    counts = counts.values()
+    categories = cat_count.keys()
+    counts = cat_count.values()
 
     plt.bar(categories, counts)
     plt.xlabel('Restaurant Categories')
-    plt.ylabel('Number of Restaurants')
+    plt.ylabel('Number of Restaurants per Category')
     plt.title('Restaurant Category Counts')
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=90)
     plt.show()
 
     conn.close()
