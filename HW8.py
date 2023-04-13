@@ -16,15 +16,21 @@ def load_rest_data(db):
     building, and rating for the restaurant.
     """
     path = os.path.dirname(os.path.abspath(__file__))
-    conn = sqlite3.connect(path+'/'+db)
+    conn = sqlite3.connect(path + '/' + db)
     cur = conn.cursor()
-    rows = cur.fetchall() #nothing is in this??
+    cur.execute("SELECT name, category_id, building_id, rating FROM restaurants")
+    #cur.execute("SELECT id, category FROM categories")
+    #cur.execute("SELECT id, building FROM buildings")
+    rows = cur.fetchall()
+    print(rows)
     d = {}
     for restaurant in rows:
-        name = restaurant[1]
-        category = restaurant[2]
-        building = restaurant[3]
-        rating = restaurant[4]
+        name = restaurant[0]
+        category_id = restaurant[1]
+        #how to get category from category id
+        building_id = restaurant[2]
+        #how to get building from building id
+        rating = restaurant[3]
         d[name] = {"category": category, "building": building, "rating": rating}
     return d
 
